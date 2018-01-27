@@ -64,7 +64,6 @@
             result[sheetName] = roa;
         }
     });
-    console.log(result);
     return result;
     }
 
@@ -72,7 +71,6 @@
     // the "e" means the event(change)
     // the event.target means the node of the Event,in this programming ,e.target.id equals xlf
     function handleFile(e) {
-    console.log(e)
     var files = e.target.files;
 
     var f = files[0];
@@ -84,14 +82,12 @@
       reader.onload = function(e) {
         //return ArrayBuffer{}
         var data = e.target.result;
-        console.log(data)
         var arr = fixdata(data);
         var wb = X.read(btoa(arr), {type: 'base64'});
         // 获取 Excel 中所有表名
         const sheetNames = wb.SheetNames; // 返回 ['sheet1', 'sheet2']
         // 根据表名获取对应某张表
         const worksheet = wb.Sheets[sheetNames[0]];
-        console.log(wb.Sheets.Sheet1)
         let colunm = ['B', 'C', 'D', 'E']
         let tempObj = {'B': [], 'C': [],  'D':[], 'E':[]}
         let alw = {'B': 0.02, 'C': 0.02, 'D': 0.03, 'E': 0.03 }
@@ -130,7 +126,6 @@
             }
           }
         }, worksheet)
-        console.log(errRows);
         var frag = document.createDocumentFragment();
         errRows.forEach((v, i) => {
           let tr = document.createElement("tr")
