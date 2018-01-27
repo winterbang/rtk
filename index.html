@@ -8,21 +8,21 @@
   <body>
     <div class="container">
       <div class="page-header">
-        <h1>RTK成果表核对小程序 <small>by winter</small></h1>
+        <h1>RTK成果表核对小应用 <small>by winter</small></h1>
       </div>
-      <p>
-        <form>
-          <div class="form-group">
-            <label for="xlf">选择表格</label>
-            <input type="file" name="xlfile" accept="application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="xlf" />
-            <p class="help-block">请选择规定模版的表格，该表格不会被上传到网上，请放心使用</p>
-            <img src="./sample.png" alt="" width="400">
-          </div>
-        </form>
-      </p>
+
+      <form>
+        <div class="form-group">
+          <label for="xlf">选择表格</label>
+          <input type="file" name="xlfile" accept="application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="xlf" />
+          <p class="help-block">请选择规定模版的表格，该表格不会被上传到网上，请放心使用</p>
+          <img src="./sample.png" alt="" width="400">
+        </div>
+      </form>
+
       <div>
-        <table class="table table-hover table-bordered">
-          <caption>核对结果有误数据展示表</caption>
+        <table class="table table-hover table-bordered" id="error-table" style="display: none">
+          <caption id="label">核对结果有误数据展示表</caption>
           <thead>
             <tr>
               <td>数据类型</td>
@@ -38,6 +38,7 @@
 
           </tbody>
         </table>
+        <img src="./perfact.gif" alt="" style="display:none;margin:0 auto;" id="perfact">
       </div>
     </div>
   </body>
@@ -71,94 +72,92 @@
     // the "e" means the event(change)
     // the event.target means the node of the Event,in this programming ,e.target.id equals xlf
     function handleFile(e) {
-    var files = e.target.files;
+      var files = e.target.files;
+      let errorDom = document.getElementById("error-table")
+      let perfactDom = document.getElementById("perfact")
+      errorDom.style.display = "none";
+      perfactDom.style.display = "none";
+      var f = files[0];
+      {
+        var reader = new FileReader();
+        var name = f.name;
+        reader.readAsArrayBuffer(f);
+        //onload means that the function(e) would be executed when the reader has finished the loading
+        reader.onload = function(e) {
+          //return ArrayBuffer{}
+          var data = e.target.result;
+          var arr = fixdata(data);
+          var wb = X.read(btoa(arr), {type: 'base64'});
+          // 获取 Excel 中所有表名
+          const sheetNames = wb.SheetNames; // 返回 ['sheet1', 'sheet2']
+          // 根据表名获取对应某张表
+          const worksheet = wb.Sheets[sheetNames[0]];
+          let colunm = ['B', 'C', 'D', 'E']
+          let tempObj = {'B': [], 'C': [],  'D':[], 'E':[]}
+          let alw = {'B': 0.02, 'C': 0.02, 'D': 0.03, 'E': 0.03 }
+          let label = { }
+          // let count = 0
+          let errRows = []
+          let dom = document.getElementById('error-rows')
+          Object.keys(worksheet).forEach( function(key, index) {
+            if(colunm.indexOf(key[0]) > -1) {
+              let cell = this[key]
+              if(cell.f) {
+                Object.keys(tempObj).forEach((g, index) => {
+                  let min = parseInt(Math.min(...tempObj[g]).toFixed(4)*1000)
+                  let max = parseInt(Math.max(...tempObj[g]).toFixed(4)*1000)
 
-    var f = files[0];
-    {
-      var reader = new FileReader();
-      var name = f.name;
-      reader.readAsArrayBuffer(f);
-      //onload means that the function(e) would be executed when the reader has finished the loading
-      reader.onload = function(e) {
-        //return ArrayBuffer{}
-        var data = e.target.result;
-        var arr = fixdata(data);
-        var wb = X.read(btoa(arr), {type: 'base64'});
-        // 获取 Excel 中所有表名
-        const sheetNames = wb.SheetNames; // 返回 ['sheet1', 'sheet2']
-        // 根据表名获取对应某张表
-        const worksheet = wb.Sheets[sheetNames[0]];
-        let colunm = ['B', 'C', 'D', 'E']
-        let tempObj = {'B': [], 'C': [],  'D':[], 'E':[]}
-        let alw = {'B': 0.02, 'C': 0.02, 'D': 0.03, 'E': 0.03 }
-        let label = { }
-        // let count = 0
-        let errRows = []
-        let dom = document.getElementById('error-rows')
-        Object.keys(worksheet).forEach( function(key, index) {
-          if(colunm.indexOf(key[0]) > -1) {
-            let cell = this[key]
-            if(cell.f) {
-              Object.keys(tempObj).forEach((g, index) => {
-                let min = parseInt(Math.min(...tempObj[g]).toFixed(4)*1000)
-                let max = parseInt(Math.max(...tempObj[g]).toFixed(4)*1000)
-
-                if (max-min > alw[g]*1000) {
-                  let errObj = {
-                    row: key.slice(1),
-                    label: label[g],
-                    max: max/1000,
-                    min: min/1000,
-                    differ: (max-min)/1000,
-                    alw: alw[g],
-                    orgData: tempObj[g]
+                  if (max-min > alw[g]*1000) {
+                    let errObj = {
+                      row: key.slice(1),
+                      label: label[g],
+                      max: max/1000,
+                      min: min/1000,
+                      differ: (max-min)/1000,
+                      alw: alw[g],
+                      orgData: tempObj[g]
+                    }
+                    errRows.push(errObj)
                   }
-                  errRows.push(errObj)
-                }
-              })
-              tempObj = {'B': [], 'C': [],  'D':[], 'E':[]}
-              return
+                })
+                tempObj = {'B': [], 'C': [],  'D':[], 'E':[]}
+                return
+              }
+              if(typeof cell.v == 'number') {
+                tempObj[key[0]].push(cell.v)
+              } else {
+                label[key[0]] = cell.v
+              }
             }
-            if(typeof cell.v == 'number') {
-              tempObj[key[0]].push(cell.v)
-            } else {
-              label[key[0]] = cell.v
-            }
-          }
-        }, worksheet)
-        var frag = document.createDocumentFragment();
-        errRows.forEach((v, i) => {
-          let tr = document.createElement("tr")
-          let headers = ['label', 'row', 'orgData', 'max', 'min', 'differ', 'alw']
-          headers.forEach((key, i) => {
-            let td = document.createElement("td")
-            let text
-            if (v[key] instanceof Array) {
-              text = v[key].join('， ')
-            } else {
-              text = v[key]
-            }
-            td.appendChild(document.createTextNode(`${text}`))
-            tr.appendChild(td)
+          }, worksheet)
+          var frag = document.createDocumentFragment();
+          errRows.forEach((v, i) => {
+            let tr = document.createElement("tr")
+            let headers = ['label', 'row', 'orgData', 'max', 'min', 'differ', 'alw']
+            headers.forEach((key, i) => {
+              let td = document.createElement("td")
+              let text
+              if (v[key] instanceof Array) {
+                text = v[key].join('， ')
+              } else {
+                text = v[key]
+              }
+              td.appendChild(document.createTextNode(`${text}`))
+              tr.appendChild(td)
+            })
+            frag.appendChild(tr)
           })
-          frag.appendChild(tr)
-          // document.createElement("td")
-          // document.createTextNode("这是新段落。");
-          // let errDom = `
-          //     <tr>
-          //       <td class="active">${label[g]}</td>
-          //       <td class="success">${key.slice(1)}</td>
-          //       <td class="warning">${tempObj[g]}</td>
-          //       <td class="danger">${max/1000}</td>
-          //       <td class="info">${min/1000}</td>
-          //     </tr>
-          // `
-          // dom.appendChild(errDom)
-          // console.log(v);
-        })
-        dom.appendChild(frag);
-      };
-    }
+          if(errRows.length > 0) {
+            let labelDom = document.getElementById('label')
+            labelDom.appendChild(document.createTextNode(` 共有【${errRows.length}】组数据存在问题`))
+            dom.appendChild(frag);
+            errorDom.style.display = "table";
+          } else {
+            perfactDom.style.display = "block";
+          }
+
+        };
+      }
     }
     if(xlf.addEventListener) xlf.addEventListener('change', handleFile, false);
 
