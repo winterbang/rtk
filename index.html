@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>RTK成果表核对</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <h1>RTK成果表核对小程序 <small>by winter</small></h1>
+      </div>
+      <p>
+        <form>
+          <div class="form-group">
+            <label for="xlf">选择表格</label>
+            <input type="file" name="xlfile" accept="application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="xlf" />
+            <p class="help-block">请选择规定模版的表格，该表格不会被上传到网上，请放心使用</p>
+            <img src="./sample.png" alt="" width="400">
+          </div>
+        </form>
+      </p>
+      <div>
+        <table class="table table-hover table-bordered">
+          <caption>核对结果有误数据展示表</caption>
+          <thead>
+            <tr>
+              <td>数据类型</td>
+              <td>第n列</td>
+              <td>数据</td>
+              <td>最大值</td>
+              <td>最小值</td>
+              <td>差值</td>
+              <td>误差要求</td>
+            </tr>
+          </thead>
+          <tbody id="error-rows">
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+  <script src="./lib/shim.js"></script>
+  <script src="./lib/xlsx.full.min.js"></script>
+  <script type="text/javascript">
+  /*this version is the source code that delete all the other code*/
+    var X = XLSX;
+    var e = e ||window.event;
+    var wtf_mode = false;
+    function fixdata(data) {
+    var o = "", l = 0, w = 10240;
+    for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
+    o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
+    return o;
+    }
+
+    /*transfer the workbook to the json*/
+    function to_json(workbook) {
+    var result = {};
+    workbook.SheetNames.forEach(function(sheetName) {
+        var roa = X.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+        if(roa.length > 0){
+            result[sheetName] = roa;
+        }
+    });
+    console.log(result);
+    return result;
+    }
+
+    var xlf = document.getElementById('xlf');
+    // the "e" means the event(change)
+    // the event.target means the node of the Event,in this programming ,e.target.id equals xlf
+    function handleFile(e) {
+    console.log(e)
+    var files = e.target.files;
+
+    var f = files[0];
+    {
+      var reader = new FileReader();
+      var name = f.name;
+      reader.readAsArrayBuffer(f);
+      //onload means that the function(e) would be executed when the reader has finished the loading
+      reader.onload = function(e) {
+        //return ArrayBuffer{}
+        var data = e.target.result;
+        console.log(data)
+        var arr = fixdata(data);
+        var wb = X.read(btoa(arr), {type: 'base64'});
+        // 获取 Excel 中所有表名
+        const sheetNames = wb.SheetNames; // 返回 ['sheet1', 'sheet2']
+        // 根据表名获取对应某张表
+        const worksheet = wb.Sheets[sheetNames[0]];
+        console.log(wb.Sheets.Sheet1)
+        let colunm = ['B', 'C', 'D', 'E']
+        let tempObj = {'B': [], 'C': [],  'D':[], 'E':[]}
+        let alw = {'B': 0.02, 'C': 0.02, 'D': 0.03, 'E': 0.03 }
+        let label = { }
+        // let count = 0
+        let errRows = []
+        let dom = document.getElementById('error-rows')
+        Object.keys(worksheet).forEach( function(key, index) {
+          if(colunm.indexOf(key[0]) > -1) {
+            let cell = this[key]
+            if(cell.f) {
+              Object.keys(tempObj).forEach((g, index) => {
+                let min = parseInt(Math.min(...tempObj[g]).toFixed(4)*1000)
+                let max = parseInt(Math.max(...tempObj[g]).toFixed(4)*1000)
+
+                if (max-min > alw[g]*1000) {
+                  let errObj = {
+                    row: key.slice(1),
+                    label: label[g],
+                    max: max/1000,
+                    min: min/1000,
+                    differ: (max-min)/1000,
+                    alw: alw[g],
+                    orgData: tempObj[g]
+                  }
+                  errRows.push(errObj)
+                }
+              })
+              tempObj = {'B': [], 'C': [],  'D':[], 'E':[]}
+              return
+            }
+            if(typeof cell.v == 'number') {
+              tempObj[key[0]].push(cell.v)
+            } else {
+              label[key[0]] = cell.v
+            }
+          }
+        }, worksheet)
+        console.log(errRows);
+        var frag = document.createDocumentFragment();
+        errRows.forEach((v, i) => {
+          let tr = document.createElement("tr")
+          let headers = ['label', 'row', 'orgData', 'max', 'min', 'differ', 'alw']
+          headers.forEach((key, i) => {
+            let td = document.createElement("td")
+            let text
+            if (v[key] instanceof Array) {
+              text = v[key].join('， ')
+            } else {
+              text = v[key]
+            }
+            td.appendChild(document.createTextNode(`${text}`))
+            tr.appendChild(td)
+          })
+          frag.appendChild(tr)
+          // document.createElement("td")
+          // document.createTextNode("这是新段落。");
+          // let errDom = `
+          //     <tr>
+          //       <td class="active">${label[g]}</td>
+          //       <td class="success">${key.slice(1)}</td>
+          //       <td class="warning">${tempObj[g]}</td>
+          //       <td class="danger">${max/1000}</td>
+          //       <td class="info">${min/1000}</td>
+          //     </tr>
+          // `
+          // dom.appendChild(errDom)
+          // console.log(v);
+        })
+        dom.appendChild(frag);
+      };
+    }
+    }
+    if(xlf.addEventListener) xlf.addEventListener('change', handleFile, false);
+
+  </script>
+</html>
