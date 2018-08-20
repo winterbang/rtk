@@ -43,18 +43,16 @@
               <img src="./1.jpg" alt="" width="400">
             </div>
           </div>
-
           <form>
             <div class="form-group">
               <label for="xlf">选择表格</label>
-              <input type="file" name="xlfile" accept="application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="xlf" />
-
+              <input type="file" name="xlfile" accept="application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="xlf-one" />
             </div>
           </form>
 
           <div>
-            <table class="table table-hover table-bordered" id="error-table" style="display: none">
-              <caption id="label">核对结果有误数据展示表</caption>
+            <table class="table table-hover table-bordered" id="error-table1" style="display: none">
+              <caption>核对结果有误数据展示表</caption>
               <thead>
                 <tr>
                   <td>#</td>
@@ -65,49 +63,113 @@
                   <td>差值</td>
                 </tr>
               </thead>
-              <tbody id="error-rows">
-
-              </tbody>
+              <tbody></tbody>
             </table>
-            <img src="./perfact.gif" alt="" style="display:none;margin:0 auto;" id="perfact">
+            <img src="./perfact.gif" alt="" style="display:none;margin:0 auto;" id="perfact1">
           </div>
         </div>
         <div class="tab-pane fade" id="two" role="tabpanel" aria-labelledby="profile-tab">
-          <div class="alert alert-info" role="alert">
-            说明：</br>
-            1、管径或断面为**X**时，孔根数必大于1（沟埋除外）管径或断面为DN*时，孔根数必等于1查出不满足以上条件的点号</br>
-            2、查出长度大于或等于75米的点号
+          <a class="btn btn-link" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            说明
+          </a>
+          <div class="collapse" id="collapseExample">
+            <div class="alert alert-info" role="alert">
+              1、管径或断面为**X**时，孔根数必大于1（沟埋除外）管径或断面为DN*时，孔根数必等于1查出不满足以上条件的点号</br>
+              2、查出长度大于或等于75米的点号
+              <img src="./2.jpg" alt="" width="400">
+            </div>
+          </div>
+          <form>
+            <div class="form-group">
+              <label for="xlf">选择表格</label>
+              <input type="file" name="xlfile" accept="application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="xlf-two" />
+            </div>
+          </form>
+
+          <div>
+            <table class="table table-hover table-bordered" id="error-table2" style="display: none">
+              <caption>核对结果有误数据展示表</caption>
+              <thead>
+                <tr>
+                  <td>#</td>
+                  <td>第n行</td>
+                  <td>长度</td>
+                  <td>管径或断面</td>
+                  <td>孔根数</td>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <img src="./perfact.gif" alt="" style="display:none;margin:0 auto;" id="perfact2">
           </div>
         </div>
         <div class="tab-pane fade" id="three" role="tabpanel" aria-labelledby="contact-tab">
-          <div class="alert alert-info" role="alert">
-            1、查出所有相邻点号管线高程起点减去终点值小于或等于-0.3的点号
+          <a class="btn btn-link" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            说明
+          </a>
+          <div class="collapse" id="collapseExample">
+            <div class="alert alert-info" role="alert">
+              1、查出所有相邻点号管线高程起点减去终点值小于或等于-0.3的点号
+              <img src="./3.jpg" alt="" width="400">
+            </div>
+          </div>
+          <form>
+            <div class="form-group">
+              <label for="xlf">选择表格</label>
+              <input type="file" name="xlfile" accept="application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="xlf-three" />
+            </div>
+          </form>
+
+          <div>
+            <table class="table table-hover table-bordered" id="error-table3" style="display: none">
+              <caption>核对结果有误数据展示表</caption>
+              <thead>
+                <tr>
+                  <td>#</td>
+                  <td>第n行</td>
+                  <td>起点</td>
+                  <td>终点</td>
+                  <td>差值</td>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <img src="./perfact.gif" alt="" style="display:none;margin:0 auto;" id="perfact3">
           </div>
         </div>
         <div class="tab-pane fade" id="four" role="tabpanel" aria-labelledby="contact-tab">
-          <div class="alert alert-info" role="alert">
-            1、查出所有相邻点号之间长度大于或等于75米的点号
+          <a class="btn btn-link" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            说明
+          </a>
+          <div class="collapse" id="collapseExample">
+            <div class="alert alert-info" role="alert">
+              1、查出所有相邻点号之间长度大于或等于75米的点号
+              <img src="./4.jpg" alt="" width="400">
+            </div>
+          </div>
+          <form>
+            <div class="form-group">
+              <label for="xlf">选择表格</label>
+              <input type="file" name="xlfile" accept="application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="xlf-four" />
+            </div>
+          </form>
+
+          <div>
+            <table class="table table-hover table-bordered" id="error-table4" style="display: none">
+              <caption>核对结果有误数据展示表</caption>
+              <thead>
+                <tr>
+                  <td>#</td>
+                  <td>第n行</td>
+                  <td>长度</td>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <img src="./perfact.gif" alt="" style="display:none;margin:0 auto;" id="perfact4">
           </div>
         </div>
       </div>
-
-      <!-- <div>
-        <table class="table table-hover table-bordered" id="error-table" style="display: none">
-          <caption id="label">核对结果有误数据展示表</caption>
-          <thead>
-            <tr>
-              <td>第n行</td>
-              <td>起点</td>
-              <td>终点</td>
-              <td>差值</td>
-            </tr>
-          </thead>
-          <tbody id="error-rows">
-
-          </tbody>
-        </table>
-        <img src="./perfact.gif" alt="" style="display:none;margin:0 auto;" id="perfact">
-      </div> -->
 
     </div>
   </body>
@@ -115,33 +177,19 @@
   <script src="./lib/xlsx.full.min.js"></script>
   <script src="./winter.js"></script>
   <script type="text/javascript">
-
     $(function () {
       $('#myTab li:first-child a').tab('show')
     })
-
     $('.collapse').collapse()
 
-    let table = document.getElementById('xlf');
-    let X = XLSX;
-    function fixdata(data) {
-      var o = "", l = 0, w = 10240;
-      for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
-      o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
-      return o;
-    }
-
-    function renderResult (data) {
-      let errorDom = document.getElementById("error-table")
-      let perfactDom = document.getElementById("perfact")
-      let dom = document.getElementById('error-rows')
+    function renderResult (data, headers, errorDom, perfactDom) {
+      let dom = errorDom.getElementsByTagName('tbody')[0]
       errorDom.style.display = "none";
       perfactDom.style.display = "none";
 
       let frag = document.createDocumentFragment();
       data.forEach((v, i) => {
         let tr = document.createElement("tr")
-        let headers = ['id', 'row', 'lg', 'start', 'end', 'differ']
         headers.forEach((key, i) => {
           let td = document.createElement("td"), text
           if (v[key] instanceof Array) {
@@ -155,7 +203,7 @@
         frag.appendChild(tr)
       })
       if(data.length > 0) {
-        let labelDom = document.getElementById('label')
+        let labelDom = errorDom.getElementsByTagName('caption')[0]
         labelDom.appendChild(document.createTextNode(` 共有【${data.length}】组数据存在问题`))
         dom.appendChild(frag);
         errorDom.style.display = "table";
@@ -164,7 +212,8 @@
       }
     }
 
-    function checkData (e) {
+    let xlfOne = document.getElementById('xlf-one');
+    function checkDataType1 (e) {
       let files = e.target.files;
       let f = files[0], result = []
       checkFile(f, function(worksheet) {
@@ -175,7 +224,7 @@
             // console.log(cell.v);
             if(!isNaN(cell.v)) {
               let v = parseInt(parseFloat(cell.v).toFixed(4)*1000)
-              if(v > 76000) {
+              if(v >= 75000) {
                 result.push({
                   id: result.length + 1,
                   row: key.slice(1),
@@ -211,10 +260,136 @@
             }
           }
         }, worksheet)
-        renderResult(result)
+        let errorDom = document.getElementById("error-table1")
+        let perfactDom = document.getElementById("perfact1")
+        let headers = ['id', 'row', 'lg', 'start', 'end', 'differ']
+        renderResult(result, headers, errorDom, perfactDom)
       })
 
     }
+    if(xlfOne.addEventListener) xlfOne.addEventListener('change', checkDataType1, false);
 
-    if(xlf.addEventListener) table.addEventListener('change', checkData, false);
+    let xlfTwo = document.getElementById('xlf-two');
+    function checkDataType2 (e) {
+      let files = e.target.files;
+      let f = files[0], result = []
+      checkFile(f, function(worksheet) {
+        Object.keys(worksheet).forEach( function(key, index) {
+          // console.log(key);
+          if(key.indexOf('F') > -1) {
+            let cell = this[key]
+            // console.log(cell.v);
+            if(!isNaN(cell.v)) {
+              let v = parseInt(parseFloat(cell.v).toFixed(4)*1000)
+              if(v >= 75000) {
+                result.push({
+                  id: result.length + 1,
+                  row: key.slice(1),
+                  lg: v/1000.0
+                })
+                console.log(`${key}: ${cell.v}`);
+              }
+            }
+          }
+
+          if(key.indexOf('D') > -1) {
+            let cell = this[key]
+            let rowNum = key.slice(1)
+            let keyE = 'E' + rowNum
+            let keyG = 'G' + rowNum
+            if(cell && cell.v.indexOf('X') && this[keyE].v.indexOf('沟埋') == -1) {
+              let v = parseFloat(this[keyG])
+              if(v <= 1) {
+                result.push({
+                  id: result.length + 1,
+                  row: key.slice(1),
+                  d: cell.v,
+                  g: this[keyG].v
+                })
+              }
+            } else if (cell && cell.v.indexOf('DN')) {
+              let v = parseInt(this[keyG])
+              if(v != 1) {
+                result.push({
+                  id: result.length + 1,
+                  row: key.slice(1),
+                  d: cell.v,
+                  g: this[keyG].v
+                })
+              }
+            }
+          }
+        }, worksheet)
+        let errorDom = document.getElementById("error-table2")
+        let perfactDom = document.getElementById("perfact2")
+        let headers4T2 = ['id', 'row', 'lg', 'd', 'g']
+        renderResult(result, headers4T2, errorDom, perfactDom)
+      })
+    }
+    if(xlfTwo.addEventListener) xlfTwo.addEventListener('change', checkDataType2, false);
+
+    let xlfThree = document.getElementById('xlf-three');
+    function checkDataType3 (e) {
+      let files = e.target.files;
+      let f = files[0], result = []
+      checkFile(f, function(worksheet) {
+        Object.keys(worksheet).forEach( function(key, index) {
+          if(key.indexOf('I') > -1) {
+            let cellI = this[key]
+            let cellJKey = 'J' + key.slice(1)
+            let cellJ = this[cellJKey]
+            if(!isNaN(cellI.v) && cellJ) {
+              // console.log(key);
+              let i = parseInt(parseFloat(cellI.v).toFixed(4)*1000)
+              let j = parseInt(parseFloat(cellJ.v).toFixed(4)*1000)
+
+              if((i - j) <= -300) {
+                result.push({
+                  id: result.length + 1,
+                  row: key.slice(1),
+                  i: cellJ.v,
+                  j: cellK.v,
+                  differ: (i-j)/1000.0
+                })
+              }
+            }
+          }
+        }, worksheet)
+        let errorDom = document.getElementById("error-table3")
+        let perfactDom = document.getElementById("perfact3")
+        let headers = ['id', 'row', 'i', 'j', 'differ']
+        renderResult(result, headers, errorDom, perfactDom)
+      })
+    }
+    if(xlfThree.addEventListener) xlfThree.addEventListener('change', checkDataType3, false);
+
+    let xlfFour = document.getElementById('xlf-four');
+    function checkDataType4 (e) {
+      let files = e.target.files;
+      let f = files[0], result = []
+      checkFile(f, function(worksheet) {
+        Object.keys(worksheet).forEach( function(key, index) {
+          // console.log(key);
+          if(key.indexOf('F') > -1) {
+            let cell = this[key]
+            if(!isNaN(cell.v)) {
+              let v = parseInt(parseFloat(cell.v).toFixed(4)*1000)
+              if(v >= 75000) {
+                result.push({
+                  id: result.length + 1,
+                  row: key.slice(1),
+                  lg: v/1000.0
+                })
+                console.log(`${key}: ${cell.v}`);
+              }
+            }
+          }
+        }, worksheet)
+        let errorDom = document.getElementById("error-table4")
+        let perfactDom = document.getElementById("perfact4")
+        let headers = ['id', 'row', 'lg']
+        renderResult(result, headers, errorDom, perfactDom)
+      })
+    }
+    if(xlfFour.addEventListener) xlfFour.addEventListener('change', checkDataType4, false);
   </script>
