@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>RTK成果表核对</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header text-center">
+        <h1>报表检查 <small>by winter</small></h1>
+        <!-- <h4><a href="./check.html">RTK成果表核对小应用 >></a></h4> -->
+      </div>
+
+      <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom: 1rem;">
+        <li class="nav-item">
+          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#one" role="tab" aria-controls="home" aria-selected="true">一类</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#two" role="tab" aria-controls="profile" aria-selected="false">二类</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="contact-tab" data-toggle="tab" href="#three" role="tab" aria-controls="contact" aria-selected="false">三类</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="contact-tab" data-toggle="tab" href="#four" role="tab" aria-controls="contact" aria-selected="false">四类</a>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="one" role="tabpanel" aria-labelledby="home-tab">
+          <a class="btn btn-link" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            说明
+          </a>
+          <div class="collapse" id="collapseExample">
+            <div class="alert alert-info" role="alert">
+              1、查出所有相邻点号之间长度大于或等于75米的点号 </br>
+              2、查出所有相邻点号管线高程起点和终点之差大于等于0.3的点号</br>
+              3、请选择规定模版的表格，该表格不会被上传到网上，请放心使用，模版如下：
+              <img src="./sample.png" alt="" width="400">
+            </div>
+          </div>
+
+          <form>
+            <div class="form-group">
+              <label for="xlf">选择表格</label>
+              <input type="file" name="xlfile" accept="application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="xlf" />
+
+            </div>
+          </form>
+
+          <div>
+            <table class="table table-hover table-bordered" id="error-table" style="display: none">
+              <caption id="label">核对结果有误数据展示表</caption>
+              <thead>
+                <tr>
+                  <td>#</td>
+                  <td>第n行</td>
+                  <td>长度</td>
+                  <td>起点</td>
+                  <td>终点</td>
+                  <td>差值</td>
+                </tr>
+              </thead>
+              <tbody id="error-rows">
+
+              </tbody>
+            </table>
+            <img src="./perfact.gif" alt="" style="display:none;margin:0 auto;" id="perfact">
+          </div>
+        </div>
+        <div class="tab-pane fade" id="two" role="tabpanel" aria-labelledby="profile-tab">
+          <div class="alert alert-info" role="alert">
+            说明：</br>
+            1、管径或断面为**X**时，孔根数必大于1（沟埋除外）管径或断面为DN*时，孔根数必等于1查出不满足以上条件的点号</br>
+            2、查出长度大于或等于75米的点号
+          </div>
+        </div>
+        <div class="tab-pane fade" id="three" role="tabpanel" aria-labelledby="contact-tab">
+          <div class="alert alert-info" role="alert">
+            1、查出所有相邻点号管线高程起点减去终点值小于或等于-0.3的点号
+          </div>
+        </div>
+        <div class="tab-pane fade" id="four" role="tabpanel" aria-labelledby="contact-tab">
+          <div class="alert alert-info" role="alert">
+            1、查出所有相邻点号之间长度大于或等于75米的点号
+          </div>
+        </div>
+      </div>
+
+      <!-- <div>
+        <table class="table table-hover table-bordered" id="error-table" style="display: none">
+          <caption id="label">核对结果有误数据展示表</caption>
+          <thead>
+            <tr>
+              <td>第n行</td>
+              <td>起点</td>
+              <td>终点</td>
+              <td>差值</td>
+            </tr>
+          </thead>
+          <tbody id="error-rows">
+
+          </tbody>
+        </table>
+        <img src="./perfact.gif" alt="" style="display:none;margin:0 auto;" id="perfact">
+      </div> -->
+
+    </div>
+  </body>
+  <script src="./lib/shim.js"></script>
+  <script src="./lib/xlsx.full.min.js"></script>
+  <script src="./winter.js"></script>
+  <script type="text/javascript">
+
+    $(function () {
+      $('#myTab li:first-child a').tab('show')
+    })
+
+    $('.collapse').collapse()
+
+    let table = document.getElementById('xlf');
+    let X = XLSX;
+    function fixdata(data) {
+      var o = "", l = 0, w = 10240;
+      for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
+      o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
+      return o;
+    }
+
+    function renderResult (data) {
+      let errorDom = document.getElementById("error-table")
+      let perfactDom = document.getElementById("perfact")
+      let dom = document.getElementById('error-rows')
+      errorDom.style.display = "none";
+      perfactDom.style.display = "none";
+
+      let frag = document.createDocumentFragment();
+      data.forEach((v, i) => {
+        let tr = document.createElement("tr")
+        let headers = ['id', 'row', 'lg', 'start', 'end', 'differ']
+        headers.forEach((key, i) => {
+          let td = document.createElement("td"), text
+          if (v[key] instanceof Array) {
+            text = v[key].join('， ')
+          } else {
+            text = v[key] || '-'
+          }
+          td.appendChild(document.createTextNode(`${text}`))
+          tr.appendChild(td)
+        })
+        frag.appendChild(tr)
+      })
+      if(data.length > 0) {
+        let labelDom = document.getElementById('label')
+        labelDom.appendChild(document.createTextNode(` 共有【${data.length}】组数据存在问题`))
+        dom.appendChild(frag);
+        errorDom.style.display = "table";
+      } else {
+        perfactDom.style.display = "block";
+      }
+    }
+
+    function checkData (e) {
+      let files = e.target.files;
+      let f = files[0], result = []
+      checkFile(f, function(worksheet) {
+        Object.keys(worksheet).forEach( function(key, index) {
+          // console.log(key);
+          if(key.indexOf('G') > -1) {
+            let cell = this[key]
+            // console.log(cell.v);
+            if(!isNaN(cell.v)) {
+              let v = parseInt(parseFloat(cell.v).toFixed(4)*1000)
+              if(v > 76000) {
+                result.push({
+                  id: result.length + 1,
+                  row: key.slice(1),
+                  lg: v/1000.0
+                })
+                console.log(`${key}: ${cell.v}`);
+
+              }
+            }
+          }
+
+          if(key.indexOf('J') > -1) {
+            let cellJ = this[key]
+            let cellKKey = 'K' + key.slice(1)
+            let cellK = this[cellKKey]
+            // console.log(`${key}: ${cellJ}`);
+            // console.log(`${cellKKey}: ${cellK}`);
+            if(!isNaN(cellJ.v) && cellK) {
+              // console.log(key);
+              let j = parseInt(parseFloat(cellJ.v).toFixed(4)*1000)
+              let k = parseInt(parseFloat(cellK.v).toFixed(4)*1000)
+
+              if(Math.abs(j - k ) > 300) {
+                result.push({
+                  id: result.length + 1,
+                  row: key.slice(1),
+                  start: cellJ.v,
+                  end: cellK.v,
+                  differ: (j-k)/1000.0
+                })
+                console.log(`${key}: ${cellJ.v}; ${cellKKey}: ${cellK.v} `);
+              }
+            }
+          }
+        }, worksheet)
+        renderResult(result)
+      })
+
+    }
+
+    if(xlf.addEventListener) table.addEventListener('change', checkData, false);
+  </script>

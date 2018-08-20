@@ -3,12 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>RTK成果表核对</title>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  </head>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
   <body>
     <div class="container">
       <div class="page-header">
         <h1>RTK成果表核对小应用 <small>by winter</small></h1>
+        <h4><a href="./check.html">报表检查 >></a></h4>
       </div>
 
       <form>
@@ -50,22 +51,22 @@
     var e = e ||window.event;
     var wtf_mode = false;
     function fixdata(data) {
-    var o = "", l = 0, w = 10240;
-    for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
-    o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
-    return o;
+      var o = "", l = 0, w = 10240;
+      for(; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w,l*w+w)));
+      o+=String.fromCharCode.apply(null, new Uint8Array(data.slice(l*w)));
+      return o;
     }
 
     /*transfer the workbook to the json*/
     function to_json(workbook) {
-    var result = {};
-    workbook.SheetNames.forEach(function(sheetName) {
+      var result = {};
+      workbook.SheetNames.forEach(function(sheetName) {
         var roa = X.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
         if(roa.length > 0){
             result[sheetName] = roa;
         }
-    });
-    return result;
+      });
+      return result;
     }
 
     var xlf = document.getElementById('xlf');
@@ -159,6 +160,7 @@
         };
       }
     }
+
     if(xlf.addEventListener) xlf.addEventListener('change', handleFile, false);
 
   </script>
